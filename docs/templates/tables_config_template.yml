@@ -1,0 +1,5 @@
+bronze_tables:
+  market_prices: bronze_market_prices
+  weather: bronze_weather
+  grid_events: bronze_grid_events
+  asset_reference: bronze_asset_reference

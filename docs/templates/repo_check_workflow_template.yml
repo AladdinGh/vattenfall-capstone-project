@@ -1,0 +1,23 @@
+name: Repo Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  repo-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Verify important structure
+        run: |
+          test -f README.md
+          test -d config
+          test -d docs
+          test -d sample_data
+          test -d sql
+          test -d src
+          test -d notebooks
+          test -d tests

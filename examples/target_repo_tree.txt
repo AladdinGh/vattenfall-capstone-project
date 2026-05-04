@@ -1,0 +1,10 @@
+vattenfall-week9-capstone-yourname/
+├── README.md
+├── config/
+├── docs/
+├── sample_data/
+├── sql/
+├── src/
+├── notebooks/
+├── tests/
+└── .github/workflows/

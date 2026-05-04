@@ -1,0 +1,10 @@
+landing_paths:
+  market_prices: market_prices
+  weather: weather
+  grid_events: grid_events
+  reference: reference
+
+checkpoint_paths:
+  market_prices: market_prices_checkpoint
+  weather: weather_checkpoint
+  grid_events: grid_events_checkpoint

@@ -1,0 +1,4 @@
+event_date,region,temperature_c,wind_speed_kmh,precipitation_mm,weather_alert_level,source_system,last_updated_ts
+2026-05-04,NORTH,11.2,18.5,0.2,LOW,WEATHER_FEED_A,2026-05-04 08:00:00
+2026-05-04,NORTH,11.5,21.0,0.0,LOW,WEATHER_FEED_A,2026-05-04 08:05:00
+2026-05-04,NORTH,10.9,25.0,0.1,MEDIUM,WEATHER_FEED_A,2026-05-04 08:10:00

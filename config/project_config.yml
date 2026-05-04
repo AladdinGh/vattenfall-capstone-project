@@ -1,0 +1,13 @@
+company: Vattenfall
+theme: energy_operations_and_market_intelligence_capstone
+
+catalog: vattenfall_dev
+
+schemas:
+  raw: raw
+  refined: refined
+  analytics: analytics
+
+volumes:
+  landing: landing
+  checkpoints: checkpoints
