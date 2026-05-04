@@ -1,0 +1,7 @@
+event_id,timestamp,event_type,substation_id,region,duration_minutes,affected_customers,severity
+EVT001076,2024-01-08 23:17:00,planned_maintenance,SUB642,Gothenburg,137,2068,critical
+EVT001077,2024-01-08 21:35:00,unplanned_outage,SUB468,Tampere,143,1633,high
+EVT001078,2024-01-08 07:14:00,unplanned_outage,SUB390,Helsinki,217,4882,critical
+EVT001079,2024-01-08 17:49:00,planned_maintenance,SUB599,Stockholm,344,4638,critical
+EVT001080,2024-01-08 02:19:00,overload,SUB813,Uppsala,25,4810,critical
+EVT001081,2024-01-08 05:07:00,overload,SUB182,Helsinki,106,316,medium

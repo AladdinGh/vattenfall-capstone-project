@@ -1,0 +1,12 @@
+region_code,region_name,country,population,area_km2
+SE-01,Stockholm,Sweden,975904,6519
+SE-02,Gothenburg,Sweden,583056,3694
+SE-03,Malmo,Sweden,344166,2522
+SE-04,Uppsala,Sweden,233839,2189
+NO-01,Oslo,Norway,709037,480
+NO-02,Bergen,Norway,285601,465
+DK-01,Copenhagen,Denmark,805402,179
+DK-02,Aarhus,Denmark,349983,468
+FI-01,Helsinki,Finland,658864,715
+FI-02,Tampere,Finland,244315,689
+FI-03,Turku,Finland,195301,306

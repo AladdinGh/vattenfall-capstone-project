@@ -1,0 +1,9 @@
+event_id,timestamp,event_type,substation_id,region,duration_minutes,affected_customers,severity
+EVT001000,2024-01-01 18:15:00,voltage_fluctuation,SUB203,Turku,32,586,high
+EVT001001,2024-01-01 07:35:00,planned_maintenance,SUB448,Malmo,335,2039,critical
+EVT001002,2024-01-01 15:38:00,overload,SUB657,Turku,74,1619,high
+EVT001003,2024-01-01 08:29:00,voltage_fluctuation,SUB136,Copenhagen,13,2202,critical
+EVT001004,2024-01-01 00:10:00,unplanned_outage,SUB271,Stockholm,240,3123,critical
+EVT001005,2024-01-01 10:56:00,voltage_fluctuation,SUB788,Gothenburg,72,4290,critical
+EVT001006,2024-01-01 05:24:00,planned_maintenance,SUB768,Helsinki,328,2069,critical
+EVT001007,2024-01-01 09:41:00,overload,SUB310,Helsinki,50,720,high

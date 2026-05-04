@@ -1,0 +1,14 @@
+event_id,timestamp,event_type,substation_id,region,duration_minutes,affected_customers,severity
+EVT001082,2024-01-09 21:16:00,equipment_failure,SUB742,Uppsala,113,4313,critical
+EVT001083,2024-01-09 23:59:00,overload,SUB822,Malmo,56,4944,critical
+EVT001084,2024-01-09 12:51:00,overload,SUB160,Malmo,10,1585,high
+EVT001085,2024-01-09 15:40:00,equipment_failure,SUB877,Copenhagen,54,4926,critical
+EVT001086,2024-01-09 11:12:00,weather_damage,SUB248,Bergen,50,4581,critical
+EVT001087,2024-01-09 01:22:00,weather_damage,SUB962,Helsinki,43,95,low
+EVT001088,2024-01-09 16:57:00,unplanned_outage,SUB471,Turku,22,3425,critical
+EVT001089,2024-01-09 08:32:00,equipment_failure,SUB380,Malmo,12,1352,high
+EVT001090,2024-01-09 10:24:00,equipment_failure,SUB967,Stockholm,29,1862,high
+EVT001091,2024-01-09 10:21:00,planned_maintenance,SUB844,Gothenburg,410,4379,critical
+EVT001092,2024-01-09 05:34:00,planned_maintenance,SUB124,Aarhus,124,63,low
+EVT001093,2024-01-09 04:55:00,weather_damage,SUB105,Turku,72,4766,critical
+EVT001094,2024-01-09 09:27:00,planned_maintenance,SUB894,Turku,180,1439,high

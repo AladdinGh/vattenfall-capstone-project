@@ -1,0 +1,10 @@
+zone_code,zone_name,country,timezone,primary_generation_type
+SE1,Northern Sweden,Sweden,Europe/Stockholm,Hydro
+SE2,Central Sweden,Sweden,Europe/Stockholm,Hydro/Nuclear
+SE3,Southern Sweden,Sweden,Europe/Stockholm,Wind
+SE4,Skåne,Sweden,Europe/Stockholm,Wind/Thermal
+NO1,Eastern Norway,Norway,Europe/Oslo,Hydro
+NO2,Western Norway,Norway,Europe/Oslo,Hydro
+DK1,Western Denmark,Denmark,Europe/Copenhagen,Wind
+DK2,Eastern Denmark,Denmark,Europe/Copenhagen,Wind
+FI,Finland,Finland,Europe/Helsinki,Nuclear/Hydro

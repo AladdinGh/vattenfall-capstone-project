@@ -1,0 +1,15 @@
+event_id,timestamp,event_type,substation_id,region,duration_minutes,affected_customers,severity
+EVT001108,2024-01-11 19:55:00,planned_maintenance,SUB489,Helsinki,293,3309,critical
+EVT001109,2024-01-11 18:50:00,equipment_failure,SUB269,Tampere,102,2883,critical
+EVT001110,2024-01-11 12:26:00,unplanned_outage,SUB439,Oslo,159,1642,high
+EVT001111,2024-01-11 16:39:00,voltage_fluctuation,SUB754,Copenhagen,41,174,medium
+EVT001112,2024-01-11 11:06:00,weather_damage,SUB848,Turku,82,4991,critical
+EVT001113,2024-01-11 07:34:00,unplanned_outage,SUB897,Copenhagen,92,1704,high
+EVT001114,2024-01-11 03:38:00,overload,SUB678,Tampere,7,244,medium
+EVT001115,2024-01-11 12:55:00,planned_maintenance,SUB804,Copenhagen,280,2129,critical
+EVT001116,2024-01-11 22:52:00,voltage_fluctuation,SUB882,Aarhus,46,4634,critical
+EVT001117,2024-01-11 14:05:00,equipment_failure,SUB896,Malmo,99,4230,critical
+EVT001118,2024-01-11 14:08:00,equipment_failure,SUB722,Bergen,78,2663,critical
+EVT001119,2024-01-11 09:04:00,unplanned_outage,SUB598,Gothenburg,125,3784,critical
+EVT001120,2024-01-11 02:16:00,equipment_failure,SUB672,Turku,97,4246,critical
+EVT001121,2024-01-11 11:11:00,overload,SUB423,Malmo,98,3943,critical

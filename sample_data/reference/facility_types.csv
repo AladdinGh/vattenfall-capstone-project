@@ -1,0 +1,11 @@
+facility_type_code,facility_type_name,generation_type,typical_capacity_mw,operational_mode
+WIND-ONS,Onshore Wind Farm,Renewable,50,Variable
+WIND-OFF,Offshore Wind Farm,Renewable,400,Variable
+SOLAR-PV,Solar Photovoltaic,Renewable,20,Variable
+HYDRO-RUN,Run-of-River Hydro,Renewable,100,Baseload
+HYDRO-STOR,Storage Hydro,Renewable,500,Dispatchable
+NUCLEAR,Nuclear Power Plant,Nuclear,1000,Baseload
+GAS-CCGT,Gas Combined Cycle,Thermal,800,Dispatchable
+COAL,Coal Power Plant,Thermal,600,Baseload
+BIOMASS,Biomass Plant,Renewable,50,Dispatchable
+BATTERY,Battery Storage,Storage,100,Dispatchable

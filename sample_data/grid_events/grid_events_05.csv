@@ -1,0 +1,16 @@
+event_id,timestamp,event_type,substation_id,region,duration_minutes,affected_customers,severity
+EVT001038,2024-01-05 01:56:00,voltage_fluctuation,SUB287,Stockholm,24,2465,critical
+EVT001039,2024-01-05 13:06:00,equipment_failure,SUB158,Oslo,37,2280,critical
+EVT001040,2024-01-05 11:12:00,weather_damage,SUB415,Uppsala,55,2385,critical
+EVT001041,2024-01-05 11:49:00,equipment_failure,SUB704,Tampere,112,4413,critical
+EVT001042,2024-01-05 20:50:00,weather_damage,SUB339,Aarhus,35,54,low
+EVT001043,2024-01-05 16:53:00,voltage_fluctuation,SUB768,Copenhagen,105,504,high
+EVT001044,2024-01-05 15:21:00,unplanned_outage,SUB986,Gothenburg,198,4787,critical
+EVT001045,2024-01-05 16:21:00,planned_maintenance,SUB958,Stockholm,361,2861,critical
+EVT001046,2024-01-05 08:09:00,weather_damage,SUB208,Tampere,46,636,high
+EVT001047,2024-01-05 23:00:00,equipment_failure,SUB953,Stockholm,5,1191,high
+EVT001048,2024-01-05 07:22:00,overload,SUB135,Tampere,82,1784,high
+EVT001049,2024-01-05 16:26:00,weather_damage,SUB291,Turku,110,4838,critical
+EVT001050,2024-01-05 00:15:00,planned_maintenance,SUB720,Uppsala,477,706,high
+EVT001051,2024-01-05 23:15:00,equipment_failure,SUB981,Uppsala,18,4599,critical
+EVT001052,2024-01-05 11:59:00,overload,SUB956,Oslo,38,4427,critical

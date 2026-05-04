@@ -1,0 +1,11 @@
+equipment_type_code,equipment_type_name,category,typical_lifespan_years,maintenance_frequency_months
+TRAN-HV,High Voltage Transformer,Transmission,30,12
+TRAN-MV,Medium Voltage Transformer,Distribution,25,12
+BRKR-HV,High Voltage Circuit Breaker,Protection,20,6
+BRKR-MV,Medium Voltage Circuit Breaker,Protection,20,6
+SWGR-HV,High Voltage Switchgear,Switching,25,12
+SWGR-MV,Medium Voltage Switchgear,Switching,25,12
+COND-OH,Overhead Conductor,Transmission,40,24
+COND-UG,Underground Cable,Distribution,30,24
+PROT-REL,Protection Relay,Control,15,12
+SCADA,SCADA System,Monitoring,10,6

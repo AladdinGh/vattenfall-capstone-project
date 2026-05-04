@@ -1,0 +1,8 @@
+event_id,timestamp,event_type,substation_id,region,duration_minutes,affected_customers,severity
+EVT001017,2024-01-03 20:50:00,equipment_failure,SUB954,Stockholm,62,4546,critical
+EVT001018,2024-01-03 23:17:00,overload,SUB799,Tampere,45,898,high
+EVT001019,2024-01-03 18:50:00,unplanned_outage,SUB880,Tampere,198,4904,critical
+EVT001020,2024-01-03 17:09:00,voltage_fluctuation,SUB825,Gothenburg,15,3791,critical
+EVT001021,2024-01-03 11:27:00,weather_damage,SUB893,Tampere,6,1947,high
+EVT001022,2024-01-03 21:28:00,equipment_failure,SUB500,Aarhus,74,3428,critical
+EVT001023,2024-01-03 23:17:00,unplanned_outage,SUB329,Helsinki,196,2591,critical
