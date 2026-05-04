@@ -40,7 +40,7 @@ Use this checklist to verify you've completed Day 1 requirements.
   - [ ] Landing paths for each domain
   - [ ] Checkpoint paths for each domain
 
-## ✅ Sample Data (`sample_data/`)
+## ✅ Sample Data (`sample_data/`) Created
 
 - [ ] Domain folders created:
   - [ ] `market_prices/`
@@ -52,10 +52,10 @@ Use this checklist to verify you've completed Day 1 requirements.
 
 ## ✅ SQL (`sql/`)
 
-- [ ] `01_uc_setup.sql` - Creates catalog, schemas, volumes
-- [ ] `02_day1_bronze_validation.sql` - Validates bronze tables
+- [ ] `01_uc_setup.sql` - Creates catalog, schemas, volumes Done
+- [ ] `02_day1_bronze_validation.sql` - Validates bronze tables (tables not created yet)
 
-## ✅ Python Package (`src/`)
+## ✅ Python Package (`src/`) DONE
 
 - [ ] Folder structure created:
   - [ ] `utils/`
@@ -65,7 +65,7 @@ Use this checklist to verify you've completed Day 1 requirements.
 - [ ] `__init__.py` files in each folder
 - [ ] At least one utility function (e.g., config loading helper)
 
-## ✅ Unity Catalog Setup (Databricks)
+## ✅ Unity Catalog Setup (Databricks) DONE
 
 - [ ] Catalog created (e.g., `vattenfall_dev`)
 - [ ] Schemas created: `raw`, `refined`, `analytics`
