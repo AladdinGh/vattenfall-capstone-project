@@ -69,11 +69,3 @@ This platform enables:
 - **Analysts** to identify patterns and optimize operations
 - **Executives** to track KPIs and compliance metrics
 
-## Week 9 Capstone Scope
-
-This week focuses on building the **foundational data ingestion and medallion architecture**:
-- **Bronze:** Raw data ingestion with Auto Loader
-- **Silver:** Cleaned and validated operational data
-- **Gold:** Business-ready aggregations for reporting
-
-Future weeks could extend to ML forecasting, real-time dashboards, and advanced analytics.

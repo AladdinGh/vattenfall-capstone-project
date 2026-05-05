@@ -68,11 +68,3 @@ This project follows the **medallion architecture** pattern (Bronze → Silver �
 - **Governance:** Unity Catalog (catalog, schema, permissions)
 - **Language:** Python (PySpark), SQL
 
-## Day 1 Scope
-
-- ✅ Unity Catalog setup (catalog, schemas, volumes)
-- ✅ Landing zone for sample data
-- ✅ Bronze ingestion with Auto Loader (at least one domain)
-- ✅ Bronze validation queries
-
-Silver and Gold layers are built in subsequent days.
