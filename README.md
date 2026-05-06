@@ -136,13 +136,41 @@ vattenfall-capstone-project/
 │   ├── grid_telemetry/
 │   └── reference/
 ├── sql/
-│   └── day3_silver_inspection_examples.sql
+│   └── 04_silver_inspection_examples.sql
 ├── dashboards/
 └── docs/
     └── 04_silver_layer_documentation.md
 ```
 
+─────────────────────────────────────────────────────────────────────────────
+
+## Bronze Layer Overview
+
+**📦 Raw Data Ingestion Foundation**
+
+**Tables Created (5):**
+* `bronze_grid_events` - Grid incident events and outages (165 records)
+* `bronze_substations` - Substation asset catalog (25 records)
+* `bronze_regions` - Geographic reference data (25 records)
+* `bronze_market_prices` - Energy market pricing data
+* `bronze_weather_obs` - Weather station observations
+
+**Key Features:**
+* ✅ Schema-on-read with Auto Loader
+* ✅ Original data preservation (including `_rescued_data`)
+* ✅ Audit columns: `source_system`, `last_updated_ts`
+* ✅ Delta Lake format for ACID transactions
+* ✅ Incremental ingestion ready
+
+**Data Lineage:**
+* Source: CSV files in `/data/` directories
+* Destination: `vattenfall_dev.raw` schema
+* Ingestion pattern: Batch loading with full history
+
+─────────────────────────────────────────────────────────────────────────────
+
 ## Silver Layer Overview
+
 ## 🔍 Critical Findings
 
 **High-Priority Actions:**
@@ -157,5 +185,4 @@ vattenfall-capstone-project/
 **Data Quality Issue:**
    * ⚠️  153 of 165 events lack asset reference data
    * →  Production requires complete asset reference dataset
-
 
