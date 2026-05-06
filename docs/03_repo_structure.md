@@ -117,7 +117,3 @@ CI/CD automation (GitHub Actions).
 4. **Configure:** `config/project_config.yml`
 5. **Set up Unity Catalog:** `sql/01_uc_setup.sql`
 6. **Run notebooks:** `notebooks/01_setup/` → `notebooks/02_bronze/`
-
-## Day 1 Deliverables
-
-See `docs/05_day1_deliverables.md` for the checklist of what to complete on Day 1.
