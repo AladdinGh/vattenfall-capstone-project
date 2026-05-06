@@ -108,6 +108,7 @@ Each week focuses on a specific aspect of the lakehouse:
 2. Review `data/` folder for sample input files
 3. Check `dashboards/` for visualization definitions
 4. Follow the weekly guides in `docs/` for step-by-step instructions
+5. Run inspection queries in `sql/` to validate data quality
 
 ## Project Structure
 
@@ -117,82 +118,135 @@ vattenfall-capstone-project/
 ├── notebooks/
 │   ├── bronze/
 │   ├── silver/
-│   ├── gold/
+│   │   ├── 03_silver_grid_events.py
+│   │   ├── 04_silver_asset_reference.py
+│   │   └── 05_silver_regional_operations_integrated.py
+│   └── gold/
 ├── pipelines/
+├── src/
+│   └── transforms/
+│       ├── grid_event_transforms.py
+│       ├── asset_reference_transforms.py
+│       ├── integration_transforms.py
+│       ├── market_price_transforms.py
+│       └── weather_transforms.py
 ├── data/
 │   ├── energy_prices/
 │   ├── weather/
 │   ├── grid_telemetry/
 │   └── reference/
+├── sql/
+│   └── day3_silver_inspection_examples.sql
 ├── dashboards/
 └── docs/
+    └── 04_silver_layer_documentation.md
 ```
 
-## Silver layer 
-📊 Tables Created (3):
-   • vattenfall_dev.refined.silver_grid_events (165 records, 44 columns)
-   • vattenfall_dev.refined.silver_asset_reference (50 records, 28 columns)
-   • vattenfall_dev.refined.silver_regional_operations_base (12 records, 72 columns)
+## Silver Layer Overview
 
-🔧 Transformation Modules (5):
-   • grid_event_transforms.py - 9 functions
-   • asset_reference_transforms.py - 6 functions
-   • integration_transforms.py - 6 functions
-   • market_price_transforms.py - prepared for future
-   • weather_transforms.py - prepared for future
+**📊 Tables Created (3):**
 
-─────────────────────────────────────────────────────────────────────────────
+1. **silver_grid_events** (`vattenfall_dev.refined.silver_grid_events`)
+   * 165 records, 44 columns
+   * Cleaned event data with temporal dimensions
+   * Impact scores and quality flags
+   * Notebook: `03_silver_grid_events.py`
 
-🎯 KEY ACHIEVEMENTS
+2. **silver_asset_reference** (`vattenfall_dev.refined.silver_asset_reference`)
+   * 50 records, 28 columns
+   * Integrated substations + regions
+   * Business keys: asset_key, region_key, country_key
+   * Categorizations: voltage_level, capacity, asset_age
+   * Notebook: `04_silver_asset_reference.py`
 
-Data Quality:
-   ✓ All validation checks passed
-   ✓ 0 null values in join keys
-   ✓ 100% calculation accuracy on enrichments
-   ✓ Categorical values validated
+3. **silver_regional_operations_base** (`vattenfall_dev.refined.silver_regional_operations_base`)
+   * 12 records, 72 columns
+   * Pre-joined events + assets (integration layer)
+   * 6 business enrichments calculated
+   * Notebook: `05_silver_regional_operations_integrated.py`
 
-Integration:
-   ✓ Pre-joined operational dataset for performance
-   ✓ 6 business enrichments calculated
-   ✓ Single source of truth established
+**🔧 Transformation Modules (5):**
+   * `grid_event_transforms.py` - 9 functions
+   * `asset_reference_transforms.py` - 6 functions
+   * `integration_transforms.py` - 6 functions
+   * `market_price_transforms.py` - prepared for future
+   * `weather_transforms.py` - prepared for future
 
-Business Insights:
-   ✓ 4 high-risk assets identified (SUB105, SUB136 - urgent)
-   ✓ Regional performance analyzed (Finland needs focus)
-   ✓ Population impact rates calculated (Turku worst at 1,200)
-   ✓ Asset age patterns revealed (aging = 2.1x longer outages)
-
-─────────────────────────────────────────────────────────────────────────────
-
-🔍 CRITICAL FINDINGS
-
-High-Priority Actions:
-   🔴 SUB105 (Finland): 26 yrs, 800 MVA, 4,766 customers - REPLACE
-   🔴 SUB136 (Finland): 28 yrs, 800 MVA, 2,202 customers - REPLACE
-
-Regional Performance:
-   🟠 Turku: 1,200 population impact rate - CAPACITY EXPANSION NEEDED
-   🟠 Copenhagen: 228 min avg duration - IMPROVE RESTORATION SPEED
-   🟠 Finland: 58% of events - INFRASTRUCTURE INVESTMENT REQUIRED
-
-Data Quality Issue:
-   ⚠️  153 of 165 events lack asset reference data
-   →  Production requires complete asset reference dataset
+**📝 SQL Inspection Queries:**
+   * Run queries from `sql/day3_silver_inspection_examples.sql`
+   * 10 sections covering validation, analysis, and insights
+   * Includes data quality checks and business metric verification
 
 ─────────────────────────────────────────────────────────────────────────────
 
-📈 METRICS
+## 🎯 Key Achievements
 
-Code Quality:
-   • 21 reusable transformation functions
-   • Modular design (src/transforms/)
-   • Test-ready architecture
+**Data Quality:**
+   * ✅ All validation checks passed
+   * ✅ 0 null values in join keys
+   * ✅ 100% calculation accuracy on enrichments
+   * ✅ Categorical values validated
 
-Performance:
-   • Pre-joined tables = 3x faster queries
-   • Consistent enrichments across all analyses
+**Integration:**
+   * ✅ Pre-joined operational dataset for performance
+   * ✅ 6 business enrichments calculated
+   * ✅ Single source of truth established
 
-Documentation:
-   • 3 comprehensive table descriptions
-   • 6 validation approaches documented
-   • Clear next steps for Gold layer
+**Business Insights:**
+   * ✅ 4 high-risk assets identified (SUB105, SUB136 - urgent)
+   * ✅ Regional performance analyzed (Finland needs focus)
+   * ✅ Population impact rates calculated (Turku worst at 1,200)
+   * ✅ Asset age patterns revealed (aging = 2.1x longer outages)
+
+─────────────────────────────────────────────────────────────────────────────
+
+## 🔍 Critical Findings
+
+**High-Priority Actions:**
+   * 🔴 SUB105 (Finland): 26 yrs, 800 MVA, 4,766 customers - REPLACE
+   * 🔴 SUB136 (Finland): 28 yrs, 800 MVA, 2,202 customers - REPLACE
+
+**Regional Performance:**
+   * 🟠 Turku: 1,200 population impact rate - CAPACITY EXPANSION NEEDED
+   * 🟠 Copenhagen: 228 min avg duration - IMPROVE RESTORATION SPEED
+   * 🟠 Finland: 58% of events - INFRASTRUCTURE INVESTMENT REQUIRED
+
+**Data Quality Issue:**
+   * ⚠️  153 of 165 events lack asset reference data
+   * →  Production requires complete asset reference dataset
+
+─────────────────────────────────────────────────────────────────────────────
+
+## 📈 Metrics
+
+**Code Quality:**
+   * 21 reusable transformation functions
+   * Modular design (src/transforms/)
+   * Test-ready architecture
+
+**Performance:**
+   * Pre-joined tables = 3x faster queries
+   * Consistent enrichments across all analyses
+
+**Documentation:**
+   * 3 comprehensive table descriptions
+   * 6 validation approaches documented
+   * Clear next steps for Gold layer
+   * 10 SQL inspection query sections
+
+─────────────────────────────────────────────────────────────────────────────
+
+## Next Steps
+
+**Immediate Priorities:**
+1. Complete asset reference data (address 153 orphaned events)
+2. Begin Gold layer design:
+   * regional_operational_kpis
+   * asset_reliability_metrics
+   * customer_impact_trends
+   * maintenance_priority_list
+
+**Additional Integrations:**
+   * market_operations_base (price + events)
+   * weather_operations_base (weather + events)
+   * equipment_maintenance_base (maintenance schedules + assets)
