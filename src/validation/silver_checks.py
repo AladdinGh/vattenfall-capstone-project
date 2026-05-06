@@ -225,16 +225,19 @@ def validate_weather_data(df: DataFrame) -> Dict:
     """
     validator = SilverDataValidator(df, "silver_weather")
     
-    required_cols = ["timestamp", "location_id", "temperature_c", "wind_speed_ms"]
+    # Use correct column names that match weather schema
+    required_cols = ["timestamp", "region_normalized", "temperature_c", "wind_speed_ms"]
     validator.check_completeness(required_cols)
     
-    validator.check_duplicates(["timestamp", "location_id"])
+    # Check for duplicates using region_original (the city name)
+    validator.check_duplicates(["timestamp", "region_original"])
     
+    # Value range checks with correct column names
     range_checks = {
         "temperature_c": (-50, 60),
         "wind_speed_ms": (0, 100),
-        "humidity_pct": (0, 100),
-        "cloud_cover_pct": (0, 100)
+        "cloud_cover_percent": (0, 100),
+        "precipitation_mm": (0, 500)
     }
     validator.check_value_ranges(range_checks)
     
