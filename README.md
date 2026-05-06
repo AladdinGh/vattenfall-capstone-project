@@ -143,41 +143,6 @@ vattenfall-capstone-project/
 ```
 
 ## Silver Layer Overview
-
-**📊 Tables Created (3):**
-
-1. **silver_grid_events** (`vattenfall_dev.refined.silver_grid_events`)
-   * 165 records, 44 columns
-   * Cleaned event data with temporal dimensions
-   * Impact scores and quality flags
-   * Notebook: `03_silver_grid_events.py`
-
-2. **silver_asset_reference** (`vattenfall_dev.refined.silver_asset_reference`)
-   * 50 records, 28 columns
-   * Integrated substations + regions
-   * Business keys: asset_key, region_key, country_key
-   * Categorizations: voltage_level, capacity, asset_age
-   * Notebook: `04_silver_asset_reference.py`
-
-3. **silver_regional_operations_base** (`vattenfall_dev.refined.silver_regional_operations_base`)
-   * 12 records, 72 columns
-   * Pre-joined events + assets (integration layer)
-   * 6 business enrichments calculated
-   * Notebook: `05_silver_regional_operations_integrated.py`
-
-**🔧 Transformation Modules (5):**
-   * `grid_event_transforms.py` - 9 functions
-   * `asset_reference_transforms.py` - 6 functions
-   * `integration_transforms.py` - 6 functions
-   * `market_price_transforms.py` - prepared for future
-   * `weather_transforms.py` - prepared for future
-
-**📝 SQL Inspection Queries:**
-   * Run queries from `sql/day3_silver_inspection_examples.sql`
-   * 10 sections covering validation, analysis, and insights
-   * Includes data quality checks and business metric verification
-
-
 ## 🔍 Critical Findings
 
 **High-Priority Actions:**
