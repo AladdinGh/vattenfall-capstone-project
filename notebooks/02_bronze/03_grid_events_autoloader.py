@@ -102,7 +102,7 @@ print(f"Row Count:   {df_bronze.count():,}")
 print(f"Columns:     {len(df_bronze.columns)}")
 print("=" * 70)
 
-display(df_bronze.limit(10))
+display(df_bronze.limit(168))
 
 # COMMAND ----------
 
