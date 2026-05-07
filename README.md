@@ -186,3 +186,150 @@ vattenfall-capstone-project/
    * ⚠️  153 of 165 events lack asset reference data
    * →  Production requires complete asset reference dataset
 
+
+─────────────────────────────────────────────────────────────────────────────
+
+## Gold Layer Overview
+
+**📊 Business Analytics Layer**  
+**Analysis Period:** January 1-15, 2024 | **Regions:** Denmark, Finland, Norway, Sweden
+
+---
+
+### 1️⃣ Daily Market Summary
+
+**Question:** *"What is the daily market situation by region?"*
+
+**Gold Table:** `gold_daily_market_summary` (60 records)  
+**Grain:** report_day × region
+
+#### Regional Market Profiles
+
+| Region | Avg Price | Market Status | Key Characteristics |
+|--------|-----------|---------------|---------------------|
+| 🔴 **Finland** | **48.62 EUR/MWh** | Premium Market | 9% premium over DK/NO<br>6 of top 10 most expensive days<br>Peak: Jan 9 at 56.66 EUR/MWh |
+| 🟡 **Sweden** | **44.98 EUR/MWh** | Moderate | Mid-range pricing<br>Stress episodes on Jan 10 & 15<br>4 high-price hours each day |
+| 🟢 **Denmark** | **44.40 EUR/MWh** | Low Cost | Most affordable<br>No extreme outliers<br>Stable pricing |
+| 🟢 **Norway** | **44.40 EUR/MWh** | Low Cost | Tied with Denmark<br>One spike: Jan 7 (55.27 EUR/MWh)<br>Generally stable |
+
+#### Key Insights
+
+* **Structural Capacity Constraints:** Finland's persistent 9% premium suggests supply-demand imbalances requiring infrastructure investment
+* **Price Volatility Risk:** Jan 12 extreme swings (14.55 EUR/MWh stddev) despite moderate average indicate market instability
+* **Nordic Integration:** Sweden bridges high-cost Finland with low-cost DK/NO, suggesting transmission bottlenecks
+
+---
+
+### 2️⃣ Weather Impact Summary
+
+**Question:** *"What weather conditions may affect operations by day and region?"*
+
+**Gold Table:** `gold_weather_impact_summary` (60 records)  
+**Grain:** report_day × region
+
+#### Weather Risk Overview
+
+**🚨 CRITICAL FINDING:** Every single day (15/15) posed operational risk
+
+| Risk Category | Percentage | Days | Characteristics |
+|---------------|------------|------|-----------------|
+| 🔴 **EXTREME** | 43% | 26 days | Risk score 8-9/9<br>High winds + heavy precipitation |
+| 🟠 **HIGH** | 57% | 34 days | Risk score 6-7/9<br>Sustained high winds |
+
+#### Primary Risk Factors
+
+* **🌬️ Wind Speed:** 8-13 m/s sustained (PRIMARY risk factor)
+* **❄️ Temperature:** -4.3°C to -2.4°C (equipment stress, ice accumulation)
+* **🌧️ Precipitation:** 0-68 mm daily (ice loading on transmission lines)
+* **☁️ Cloud Cover:** 43-63% average (reduced solar generation)
+
+#### Regional Weather Patterns
+
+**All regions experienced similar severe conditions, but:**
+* **Finland** requires priority attention due to historical incident concentration (58% of events)
+* **Extreme weather days:** Jan 1, 3, 6, 13, 15 (risk score 8)
+* **Correlation finding:** Low wind speeds create +5.7% price premium (reduced renewable generation)
+
+---
+
+### 3️⃣ Grid Incident Summary
+
+**Question:** *"What operational incidents happened, where, and how severe were they?"*
+
+**Gold Table:** `gold_grid_incident_summary` (97 records)  
+**Grain:** event_day × region × severity_band
+
+#### Regional Incident Analysis
+
+| Region | Incidents | Customers Affected | Avg Duration | Status |
+|--------|-----------|-------------------|--------------|--------|
+| 🔴 **Sweden** | **60** (36%) | **169,145** (39%) | **148 min** | CRITICAL<br>Highest volume + longest durations |
+| 🟡 **Finland** | **47** (28%) | **115,327** (27%) | **116 min** | HIGH<br>Balanced frequency-duration |
+| 🟢 **Norway** | **30** (18%) | **88,381** (21%) | **91 min** | MODERATE<br>Shortest durations<br>Worst single day: Jan 4 (22,067 customers) |
+| 🟢 **Denmark** | **28** (17%) | **57,809** (13%) | **112 min** | STABLE<br>Best operational performance |
+
+**Total Impact:** 165 incidents | 430,662 customers affected | 19,685 minutes total downtime
+
+#### Severity Impact Analysis
+
+| Severity Band | Incidents | Avg Duration | Customer Impact | Key Finding |
+|---------------|-----------|--------------|-----------------|-------------|
+| **Critical Priority** | 49 (30%) | 132 min | **84% of total impact** | High-severity focus critical |
+| **High Priority** | 14 (8%) | **226 min** | 12% of impact | 2× restoration time = complex technical challenges |
+| **Medium Priority** | 49 (30%) | 69 min | 3% of impact | Routine restoration |
+| **Low Priority** | 53 (32%) | 76 min | 1% of impact | Minimal impact |
+
+#### Strategic Implications
+
+✅ **Sweden Requires Immediate Intervention:** 36% of all incidents + longest restoration times + dominates worst-day rankings  
+✅ **Critical Priority = 84% Impact:** Focus prevention on high-severity scenarios, not equal distribution  
+✅ **High Priority Complexity:** 2× restoration time warrants root cause analysis and specialized protocols  
+✅ **Norway Jan 4 Event:** 22,067 customers (25% of Norway's 2-week impact) - investigate weather/equipment/maintenance factors  
+✅ **Denmark Best Practice:** Lowest incident count - benchmark processes for other regions  
+
+---
+
+### 4️⃣ Regional Condition Daily
+
+**Question:** *"What is the overall operational health of each region by day?"*
+
+**Gold Table:** `gold_regional_condition_daily` (60 records)  
+**Grain:** report_day × region  
+**Health Score:** 0-100 composite metric (market + weather + incidents)
+
+#### Regional Health Rankings
+
+| Tier | Region | Health Score | Alert Days | Status | Key Metrics |
+|------|--------|--------------|------------|--------|-------------|
+| **Tier 1** | 🟡 **Denmark** | **49.2** | 10/15 (67%) | Moderately Stressed | 28 incidents<br>57,809 customers<br>Balanced stress profile |
+| **Tier 1** | 🟡 **Norway** | **49.2** | 6/15 (40%) | Moderately Stressed | 30 incidents<br>88,381 customers<br>One catastrophic day (Jan 4) |
+| **Tier 2** | 🔴 **Finland** | **39.3** | 14/15 (93%) | **Highly Stressed** | 47 incidents<br>115,327 customers<br>Premium pricing (48.62 EUR/MWh) |
+| **Tier 2** | 🔴 **Sweden** | **34.0** | 14/15 (93%) | **CRITICAL** | 60 incidents (36% of Nordic)<br>169,145 customers<br>**Triple threat pattern** |
+
+#### Operational Condition Distribution
+
+| Condition | Days | Percentage | Implication |
+|-----------|------|------------|-------------|
+| CRITICAL | 12 | 20% | Immediate intervention required |
+| POOR | 19 | 32% | Elevated operational risk |
+| FAIR | 29 | 48% | Manageable but monitored |
+| GOOD | 0 | 0% | **No "good" operational days** |
+| EXCELLENT | 0 | 0% | **No "excellent" operational days** |
+
+#### Critical Findings
+
+🚨 **Zero EXCELLENT/GOOD Days:** All 60 region-days showed elevated risk  
+🚨 **73% Required Alerts:** 44 of 60 region-days triggered operational alerts  
+🚨 **Sweden Triple Threat:** High incidents + extreme weather + longest restoration = strategic crisis  
+🚨 **Finland Persistent Stress:** 93% alert rate + premium pricing = infrastructure limits reached  
+
+#### Recommended Actions
+
+| Priority | Region | Action | Expected Outcome |
+|----------|--------|--------|------------------|
+| **P0** | Sweden | Strategic grid resilience investment + preventive maintenance program | Reduce incident volume 20-30% |
+| **P0** | Finland | Capacity expansion + infrastructure modernization | Lower alert rate to <70% |
+| **P1** | Norway | Root cause analysis of Jan 4 event + emergency response protocols | Prevent catastrophic single-day events |
+| **P1** | Denmark | Benchmark best practices + knowledge transfer program | Share operational excellence across Nordic grid |
+
+---
