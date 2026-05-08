@@ -240,26 +240,6 @@ newest_asset_years           8
 | **Silver** | Detailed investigations | Fast | Complete |
 | **Gold** | Executive dashboards | Instant | Summarized |
 
-## Project Objectives
-
-By the end of this capstone, you will have built:
-
-1. **Automated Data Pipelines** using Lakeflow Spark Declarative Pipelines (SDP)
-2. **Unity Catalog Governance** with fine-grained access controls
-3. **Data Quality Frameworks** with expectations and monitoring
-4. **Performance-Optimized Tables** using Delta Lake features
-5. **Production-Ready Dashboards** for operational and executive reporting
-6. **End-to-End Data Lineage** from source to consumption
-
-## Weekly Deliverables
-
-Each week focuses on a specific aspect of the lakehouse:
-
-- **Week 1**: Environment setup and bronze layer ingestion
-- **Week 2**: Silver layer transformations and data quality
-- **Week 3**: Gold layer business metrics and dimensional models
-- **Week 4**: Dashboards, governance, and production deployment
-
 ## Technology Stack
 
 - **Platform**: Databricks on AWS
