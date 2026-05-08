@@ -261,33 +261,68 @@ newest_asset_years           8
 
 ```
 vattenfall-capstone-project/
-├── README.md
-├── notebooks/
-│   ├── bronze/
-│   ├── silver/
+├── README.md                                  # This file - project documentation
+├── notebooks/                                 # Data transformation notebooks
+│   ├── 01_bronze/                            # Bronze layer - raw ingestion
+│   │   ├── bronze_grid_events.ipynb
+│   │   ├── bronze_market_prices.ipynb
+│   │   ├── bronze_weather_obs.ipynb
+│   │   └── bronze_substations.ipynb
+│   ├── 02_silver/                            # Silver layer - cleaned & enriched
 │   │   ├── 03_silver_grid_events.py
 │   │   ├── 04_silver_asset_reference.py
-│   │   └── 05_silver_regional_operations_integrated.py
-│   └── gold/
-├── pipelines/
-├── src/
+│   │   ├── 05_silver_regional_operations_integrated.py
+│   │   ├── silver_market_prices.ipynb
+│   │   └── silver_weather_obs.ipynb
+│   └── 04_gold/                              # Gold layer - business metrics
+│       ├── 03_gold_grid_incident_summary.ipynb     # Daily incident aggregations
+│       ├── 07_gold_insights.ipynb                  # Detailed substation analysis
+│       ├── 08_gold_regional_analytics.ipynb        # Regional health dashboard
+│       ├── gold_market_summary.ipynb
+│       └── gold_weather_impact_summary.ipynb
+├── src/                                      # Reusable Python modules
 │   └── transforms/
-│       ├── grid_event_transforms.py
-│       ├── asset_reference_transforms.py
-│       ├── integration_transforms.py
-│       ├── market_price_transforms.py
-│       └── weather_transforms.py
-├── data/
-│   ├── energy_prices/
+│       ├── grid_event_transforms.py         # Event standardization logic
+│       ├── asset_reference_transforms.py    # Asset enrichment functions
+│       ├── integration_transforms.py        # Cross-domain joins
+│       ├── market_price_transforms.py       # Price normalization
+│       └── weather_transforms.py            # Weather categorization
+├── data/                                     # Sample CSV files (165 events, 826 prices, 1,140 observations)
+│   ├── grid_events/
+│   │   ├── grid_events_01.csv
+│   │   └── grid_events_02.csv
+│   ├── market_prices/
+│   │   ├── market_prices_01.csv
+│   │   └── market_prices_02.csv
 │   ├── weather/
-│   ├── grid_telemetry/
+│   │   ├── weather_01.csv
+│   │   └── weather_02.csv
 │   └── reference/
-├── sql/
-│   └── 04_silver_inspection_examples.sql
-├── dashboards/
-└── docs/
+│       ├── substations.csv                  # 25 substation records
+│       └── regions.csv                      # 25 region mappings
+├── sql/                                      # Ad-hoc analysis queries
+│   ├── 04_silver_inspection_examples.sql
+│   └── gold_layer_validation.sql
+├── dashboards/                               # Dashboard definitions
+│   └── regional_health_dashboard.png        # Executive summary visualization
+└── docs/                                     # Implementation guides
+    ├── 01_bronze_layer_setup.md
+    ├── 02_silver_layer_transformations.md
+    ├── 03_gold_layer_analytics.md
     └── 04_silver_layer_documentation.md
 ```
+
+**Key Directories:**
+* **notebooks/01_bronze/** - Raw data ingestion preserving source format
+* **notebooks/02_silver/** - Cleaned data with standardization (city → country codes, severity bands)
+* **notebooks/04_gold/** - Pre-aggregated business metrics for dashboards
+* **src/transforms/** - Shared Python functions for data transformations
+* **data/** - Sample CSV files for development and testing
+
+**Unity Catalog Schemas:**
+* `vattenfall_dev.raw` - Bronze layer tables
+* `vattenfall_dev.refined` - Silver layer tables
+* `vattenfall_dev.gold` - Gold layer tables
 
 ─────────────────────────────────────────────────────────────────────────────
 
@@ -305,13 +340,13 @@ vattenfall-capstone-project/
 ─────────────────────────────────────────────────────────────────────────────
 ## Silver Layer Overview
 
-**📦 Raw Data Ingestion Foundation**
+**📦 Processing, Feature Engineering**
 
-
+**Question 1: Why Does Copenhagen Have the Highest Risk Score?**
 ![image_1778251535987.png](./image_1778251535987.png "image_1778251535987.png")
 
-![image_1778251675616.png](./image_1778251675616.png "image_1778251675616.png")
 
+**Question 2: When Do Grid Failures Happen?**
 ![image_1778251718238.png](./image_1778251718238.png "image_1778251718238.png")
 
 
