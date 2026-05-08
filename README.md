@@ -17,61 +17,228 @@ This project builds a scalable data lakehouse that unifies these data sources to
 ## Data Sources
 
 ### 1. Energy Market Price Data
-Real-time and historical pricing information from energy markets including:
-- Spot prices (day-ahead and intraday markets)
-- Forward curves and futures contracts
-- Regional price variations
-- Supply and demand indicators
+**Sample:** `market_prices/market_prices_01.csv`
+```csv
+timestamp,market_zone,price_eur_mwh,market_type,volume_mwh
+2024-01-01 00:00:00,SE2,40.67,intraday,4116.04
+2024-01-01 00:00:00,SE2,39.07,day_ahead,1016.37
+2024-01-01 01:00:00,NO2,33.71,day_ahead,3847.87
+2024-01-01 01:00:00,NO1,20.4,day_ahead,3024.15
+```
 
 ### 2. Weather Observations
-Meteorological data critical for energy forecasting:
-- Temperature, wind speed, and solar irradiance
-- Historical weather patterns
-- Weather station locations and measurements
-- Correlation with energy demand and renewable generation
+**Sample:** `weather/weather_01.csv`
+```csv
+timestamp,region,temperature_celsius,wind_speed_ms,cloud_cover_percent,precipitation_mm
+2024-01-01 00:00:00,Bergen,-3.3,3.3,86.1,1.1
+2024-01-01 00:00:00,Malmo,-0.1,10.2,31.1,4.7
+2024-01-01 00:00:00,Bergen,-0.8,3.2,93.9,4.7
+2024-01-01 00:00:00,Uppsala,-6.8,2.6,65.5,2.5
+```
 
 ### 3. Grid Telemetry & Incident Events
-Operational data from the electrical grid:
-- Real-time sensor readings from substations and transmission lines
-- Power flow measurements
-- Incident logs and outage events
-- Maintenance records and asset health indicators
+**Sample:** `grid_events/grid_events_01.csv`
+```csv
+event_id,timestamp,event_type,substation_id,region,duration_minutes,affected_customers,severity
+EVT001000,2024-01-01 18:15:00,voltage_fluctuation,SUB203,Turku,32,586,high
+EVT001001,2024-01-01 07:35:00,planned_maintenance,SUB448,Malmo,335,2039,critical
+EVT001002,2024-01-01 15:38:00,overload,SUB657,Turku,74,1619,high
+EVT001003,2024-01-01 08:29:00,voltage_fluctuation,SUB136,Copenhagen,13,2202,critical
+```
 
 ### 4. Reference Data
-Master data and dimensional information:
-- Geographic location hierarchies
-- Asset catalogs and specifications
-- Customer segments
-- Regulatory and compliance metadata
+**Sample:** `reference/substations.csv`
+```csv
+substation_id,substation_name,region_code,voltage_kv,capacity_mva,commissioned_year
+SUB100,Substation 100,FI-01,400,800,1997
+SUB101,Substation 101,DK-01,132,300,1995
+SUB102,Substation 102,DK-01,220,300,2009
+SUB103,Substation 103,FI-01,400,100,1982
+```
 
 ## Architecture
 
-The project implements a **medallion architecture** with progressive data refinement:
+The project implements a **medallion architecture** with progressive data refinement across all data sources.
 
-### Bronze Layer (Raw Ingestion)
-- Ingests raw files from all source systems
-- Preserves original data format and structure
-- Implements schema-on-read patterns
-- Tracks data lineage and audit metadata
+### Example 1: Grid Events (January 4th, Norway)
 
-### Silver Layer (Cleaned & Conformed)
-- Cleanses and validates data quality
-- Standardizes formats, timestamps, and units
-- Implements slowly changing dimensions (SCD)
-- Joins and enriches datasets
-- Handles deduplication and error records
+Here's how **6 critical incidents** aggregate through the layers:
 
-### Gold Layer (Business-Level Aggregates)
-- Creates business-ready aggregations and KPIs
-- Implements dimensional models for analytics
-- Pre-calculates metrics for reporting performance
-- Enforces data governance and access policies
+#### Bronze Layer (Raw Ingestion)
+**Table:** `vattenfall_dev.raw.bronze_grid_events` | **Records:** 165
 
-### Reporting Layer
-- Powers dashboards and BI tools
-- Supports ad-hoc analysis and data science use cases
-- Provides APIs for downstream consumption
-- Enables self-service analytics
+```
+event_id              EVT001032
+timestamp             2024-01-04 04:55:00
+event_type            overload
+substation_id         SUB894
+region                Oslo
+duration_minutes      117
+affected_customers    2661
+severity              critical
+
+event_id              EVT001029
+timestamp             2024-01-04 13:09:00
+event_type            planned_maintenance
+substation_id         SUB405
+region                Oslo
+duration_minutes      296
+affected_customers    3345
+severity              critical
+
+... (4 more critical incidents on this day in Norway)
+```
+
+**Purpose:** Preserve raw data exactly as received. No transformations, no cleaning.
+
+---
+
+#### Silver Layer (Cleaned & Standardized)
+**Table:** `vattenfall_dev.refined.silver_grid_events` | **Records:** 165
+
+```
+event_id              EVT001032
+timestamp             2024-01-04 04:55:00
+event_day             2024-01-04          → NEW: Extracted from timestamp
+event_type            overload
+substation_id         SUB894
+region                Oslo                → Original kept
+region_normalized     NO                  → NEW: Oslo → NO
+duration_minutes      117
+affected_customers    2661
+severity              critical            → Original kept
+severity_band         critical_priority   → NEW: critical → critical_priority
+
+event_id              EVT001029
+timestamp             2024-01-04 13:09:00
+event_day             2024-01-04
+event_type            planned_maintenance
+substation_id         SUB405
+region                Oslo
+region_normalized     NO
+duration_minutes      296
+affected_customers    3345
+severity              critical
+severity_band         critical_priority
+
+... (4 more incidents: EVT001037, EVT001026, EVT001028, EVT001030)
+```
+
+**Changes:**
+- **Added** `event_day` for partitioning
+- **Added** `region_normalized` (city name → country code)
+- **Added** `severity_band` (standardized categories)
+- **Kept** originals for audit trail
+
+---
+
+#### Gold Layer (Aggregated Metrics)
+**Table:** `vattenfall_dev.gold.gold_grid_incident_summary` | **Records:** 97
+
+```
+event_day                    2024-01-04
+region                       NO
+severity_band                critical_priority
+incident_count               6              ← 6 events combined
+elevated_incident_count      6
+critical_incident_count      6
+total_duration_minutes       982            ← Sum of all 6
+avg_duration_minutes         163.7          ← Average
+total_customers_affected     22,067         ← Sum of all 6
+avg_customers_per_incident   3,677.8        ← Average
+```
+
+**Changes:**
+- **Lost** individual event IDs (EVT001032, EVT001029, etc. disappear)
+- **Lost** substation details (SUB894, SUB405, etc.)
+- **Lost** event types and timestamps
+- **Gained** pre-calculated metrics for dashboards
+- **Aggregated** by day × region × severity (165 → 97 records)
+
+---
+### Example 2: Reference Data (Substations)
+
+Static reference data also flows through the architecture for enrichment:
+
+#### Bronze Layer (Raw Catalog)
+**Table:** `vattenfall_dev.raw.bronze_substations` | **Records:** 25
+
+```
+substation_id         SUB128
+substation_name       Substation 128
+region_code           SE-01
+voltage_kv            400
+capacity_mva          800
+commissioned_year     2000
+```
+
+**Purpose:** Maintain master data catalog exactly as provided.
+
+---
+
+#### Silver Layer (Enriched with Business Logic)
+**Table:** `vattenfall_dev.refined.silver_substations` | **Records:** 25
+
+```
+substation_id         SUB128
+substation_name       Substation 128
+region_code           SE-01
+region_normalized     SE                  → NEW: Extracted from region_code
+voltage_kv            400
+capacity_mva          800
+commissioned_year     2000
+asset_age_years       24                  → NEW: Calculated from 2024
+age_category          aging               → NEW: Based on age thresholds
+capacity_category     large               → NEW: Based on MVA rating
+risk_tier             high                → NEW: Age + capacity assessment
+```
+
+**Changes:**
+- **Added** `region_normalized` for joining with operational data
+- **Added** `asset_age_years` (calculated field)
+- **Added** categorization fields for analytics
+- **Added** `risk_tier` for prioritization
+
+---
+
+#### Gold Layer (Asset Portfolio Summary)
+**Table:** `vattenfall_dev.gold.gold_asset_portfolio` | **Records:** 4 (one per region)
+
+```
+region                       SE
+substation_count             12
+avg_age_years                18.3
+aging_assets_count           7              ← Assets 15+ years old
+total_capacity_mva           6,400
+high_risk_assets             4              ← Assets requiring attention
+oldest_asset_years           24             ← SUB128
+newest_asset_years           8
+```
+
+**Changes:**
+- **Lost** individual substation identities
+- **Lost** specific locations and names
+- **Gained** regional portfolio metrics
+- **Aggregated** by region (25 → 4 records)
+
+---
+
+### Summary
+
+| Data Source | Bronze | Silver | Gold | Reduction |
+|-------------|--------|--------|------|-----------|
+| **Grid Events** | 165 | 165 | 97 | 41% |
+| **Weather** | 1,140 | 1,140 | 60 | 95% |
+| **Substations** | 25 | 25 | 4 | 84% |
+| **Market Prices** | 826 | 826 | 60 | 93% |
+
+**Trade-off:** Bronze/Silver preserve every detail. Gold loses detail but gains speed through pre-aggregation.
+
+| Layer | Purpose | Query Speed | Detail Level |
+|-------|---------|-------------|--------------|
+| **Bronze** | Audit trail, reprocessing | Slow | Complete |
+| **Silver** | Detailed investigations | Fast | Complete |
+| **Gold** | Executive dashboards | Instant | Summarized |
 
 ## Project Objectives
 
@@ -155,40 +322,20 @@ vattenfall-capstone-project/
 * `bronze_market_prices` - Energy market pricing data
 * `bronze_weather_obs` - Weather station observations
 
-**Key Features:**
-* ✅ Schema-on-read with Auto Loader
-* ✅ Original data preservation (including `_rescued_data`)
-* ✅ Audit columns: `source_system`, `last_updated_ts`
-* ✅ Delta Lake format for ACID transactions
-* ✅ Incremental ingestion ready
-
-**Data Lineage:**
-* Source: CSV files in `/data/` directories
-* Destination: `vattenfall_dev.raw` schema
-* Ingestion pattern: Batch loading with full history
-
 ─────────────────────────────────────────────────────────────────────────────
-
 ## Silver Layer Overview
 
-## 🔍 Critical Findings
+**📦 Raw Data Ingestion Foundation**
 
-**High-Priority Actions:**
-   * 🔴 SUB105 (Finland): 26 yrs, 800 MVA, 4,766 customers - REPLACE
-   * 🔴 SUB136 (Finland): 28 yrs, 800 MVA, 2,202 customers - REPLACE
 
-**Regional Performance:**
-   * 🟠 Turku: 1,200 population impact rate - CAPACITY EXPANSION NEEDED
-   * 🟠 Copenhagen: 228 min avg duration - IMPROVE RESTORATION SPEED
-   * 🟠 Finland: 58% of events - INFRASTRUCTURE INVESTMENT REQUIRED
+![image_1778251535987.png](./image_1778251535987.png "image_1778251535987.png")
 
-**Data Quality Issue:**
-   * ⚠️  153 of 165 events lack asset reference data
-   * →  Production requires complete asset reference dataset
+![image_1778251675616.png](./image_1778251675616.png "image_1778251675616.png")
+
+![image_1778251718238.png](./image_1778251718238.png "image_1778251718238.png")
 
 
 ─────────────────────────────────────────────────────────────────────────────
-
 ## Gold Layer Overview
 
 **📊 Business Analytics Layer**  
@@ -237,37 +384,12 @@ vattenfall-capstone-project/
 
 The 4-panel executive dashboard provides a comprehensive view of Nordic grid operations:
 
-**📊 Total Incidents by Region**
-* Sweden (SE): 60 incidents - Highest operational load
-* Finland (FI): 47 incidents
-* Norway (NO): 30 incidents  
-* Denmark (DK): 28 incidents
-
-**⏱️ Average Incident Duration**
-* Sweden (SE): 148.1 minutes - Longest restoration time
-* Finland (FI): 116.3 minutes
-* Denmark (DK): 111.9 minutes
-* Norway (NO): 90.6 minutes - Fastest recovery
-
-**👥 Customer Impact**
-* Sweden (SE): 169,145 customers affected - Highest impact
-* Finland (FI): 115,327 customers
-* Norway (NO): 88,381 customers
-* Denmark (DK): 57,809 customers
-* **Total**: 430,662 customers affected across all regions
-
-**🚨 Critical Incident Rate**
-* Shows percentage of critical priority incidents by region
-* Enables risk-based resource allocation
-* Identifies regions requiring immediate operational attention
-
 ### Key Insights
 
 * **Sweden** requires urgent attention across all metrics - highest incident count, longest duration, and greatest customer impact
 * **Norway** demonstrates operational excellence with fastest recovery times despite moderate incident volume
 * **57.5-minute gap** between fastest (NO) and slowest (SE) recovery indicates significant opportunity for process improvement
 * Regional patterns suggest infrastructure investment priorities for 2024-2025
-
 
 
 ─────────────────────────────────────────────────────────────────────────────
