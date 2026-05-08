@@ -155,73 +155,6 @@ avg_customers_per_incident   3,677.8        ← Average
 - **Gained** pre-calculated metrics for dashboards
 - **Aggregated** by day × region × severity (165 → 97 records)
 
----
-### Example 2: Reference Data (Substations)
-
-Static reference data also flows through the architecture for enrichment:
-
-#### Bronze Layer (Raw Catalog)
-**Table:** `vattenfall_dev.raw.bronze_substations` | **Records:** 25
-
-```
-substation_id         SUB128
-substation_name       Substation 128
-region_code           SE-01
-voltage_kv            400
-capacity_mva          800
-commissioned_year     2000
-```
-
-**Purpose:** Maintain master data catalog exactly as provided.
-
----
-
-#### Silver Layer (Enriched with Business Logic)
-**Table:** `vattenfall_dev.refined.silver_substations` | **Records:** 25
-
-```
-substation_id         SUB128
-substation_name       Substation 128
-region_code           SE-01
-region_normalized     SE                  → NEW: Extracted from region_code
-voltage_kv            400
-capacity_mva          800
-commissioned_year     2000
-asset_age_years       24                  → NEW: Calculated from 2024
-age_category          aging               → NEW: Based on age thresholds
-capacity_category     large               → NEW: Based on MVA rating
-risk_tier             high                → NEW: Age + capacity assessment
-```
-
-**Changes:**
-- **Added** `region_normalized` for joining with operational data
-- **Added** `asset_age_years` (calculated field)
-- **Added** categorization fields for analytics
-- **Added** `risk_tier` for prioritization
-
----
-
-#### Gold Layer (Asset Portfolio Summary)
-**Table:** `vattenfall_dev.gold.gold_asset_portfolio` | **Records:** 4 (one per region)
-
-```
-region                       SE
-substation_count             12
-avg_age_years                18.3
-aging_assets_count           7              ← Assets 15+ years old
-total_capacity_mva           6,400
-high_risk_assets             4              ← Assets requiring attention
-oldest_asset_years           24             ← SUB128
-newest_asset_years           8
-```
-
-**Changes:**
-- **Lost** individual substation identities
-- **Lost** specific locations and names
-- **Gained** regional portfolio metrics
-- **Aggregated** by region (25 → 4 records)
-
----
 
 ### Summary
 
@@ -229,7 +162,6 @@ newest_asset_years           8
 |-------------|--------|--------|------|-----------|
 | **Grid Events** | 165 | 165 | 97 | 41% |
 | **Weather** | 1,140 | 1,140 | 60 | 95% |
-| **Substations** | 25 | 25 | 4 | 84% |
 | **Market Prices** | 826 | 826 | 60 | 93% |
 
 **Trade-off:** Bronze/Silver preserve every detail. Gold loses detail but gains speed through pre-aggregation.
@@ -245,9 +177,7 @@ newest_asset_years           8
 - **Platform**: Databricks on AWS
 - **Storage**: Delta Lake with Unity Catalog
 - **Compute**: Serverless and provisioned clusters
-- **Orchestration**: Databricks Jobs
 - **Languages**: Python, SQL
-- **Visualization**: Databricks Dashboards (Lakeview)
 
 ## Getting Started
 
@@ -311,22 +241,9 @@ vattenfall-capstone-project/
     ├── 03_gold_layer_analytics.md
     └── 04_silver_layer_documentation.md
 ```
-
-**Key Directories:**
-* **notebooks/01_bronze/** - Raw data ingestion preserving source format
-* **notebooks/02_silver/** - Cleaned data with standardization (city → country codes, severity bands)
-* **notebooks/04_gold/** - Pre-aggregated business metrics for dashboards
-* **src/transforms/** - Shared Python functions for data transformations
-* **data/** - Sample CSV files for development and testing
-
-**Unity Catalog Schemas:**
-* `vattenfall_dev.raw` - Bronze layer tables
-* `vattenfall_dev.refined` - Silver layer tables
-* `vattenfall_dev.gold` - Gold layer tables
-
 ─────────────────────────────────────────────────────────────────────────────
 
-## Bronze Layer Overview
+## Bronze Layer Results
 
 **📦 Raw Data Ingestion Foundation**
 
@@ -338,7 +255,7 @@ vattenfall-capstone-project/
 * `bronze_weather_obs` - Weather station observations
 
 ─────────────────────────────────────────────────────────────────────────────
-## Silver Layer Overview
+## Silver Layer Results
 
 **📦 Processing, Feature Engineering**
 
@@ -351,7 +268,7 @@ vattenfall-capstone-project/
 
 
 ─────────────────────────────────────────────────────────────────────────────
-## Gold Layer Overview
+## Gold Layer Results
 
 **📊 Business Analytics Layer**  
 **Analysis Period:** January 1-15, 2024 | **165 incidents | 430,662 customers affected**
