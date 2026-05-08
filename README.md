@@ -194,12 +194,6 @@ vattenfall-capstone-project/
 **📊 Business Analytics Layer**  
 **Analysis Period:** January 1-15, 2024 | **165 incidents | 430,662 customers affected**
 
-### Gold Tables Created (3)
-
-1. **`gold_regional_condition_daily`** - Daily operational health scores by country
-2. **`gold_substation_risk_scoring`** - Asset-level performance rankings
-3. **`gold_weather_attribution`** - Weather vs. aging infrastructure causation
-
 ### Key Findings
 
 #### 🔴 Country Operational Health
@@ -274,6 +268,6 @@ The 4-panel executive dashboard provides a comprehensive view of Nordic grid ope
 * **57.5-minute gap** between fastest (NO) and slowest (SE) recovery indicates significant opportunity for process improvement
 * Regional patterns suggest infrastructure investment priorities for 2024-2025
 
-*Dashboard generated from Gold layer aggregates. View live visualization in notebook: `04_gold/08_gold_regional_analytics`*
+
 
 ─────────────────────────────────────────────────────────────────────────────
