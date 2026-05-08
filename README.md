@@ -151,7 +151,7 @@ vattenfall-capstone-project/
 **Tables Created (5):**
 * `bronze_grid_events` - Grid incident events and outages (165 records)
 * `bronze_substations` - Substation asset catalog (25 records)
-* `bronze_regions` - Geographic reference data (25 records)
+* `bronze_regions` - Geographic reference data (25 regions)
 * `bronze_market_prices` - Energy market pricing data
 * `bronze_weather_obs` - Weather station observations
 
@@ -211,7 +211,7 @@ vattenfall-capstone-project/
 | Finland | 39.3 | POOR | 58% of total incidents + premium pricing |
 | **Sweden** | **34.0** | **CRITICAL** | 60 incidents (36% of Nordic) + 169K customers affected |
 
-**Critical Finding:** Zero EXCELLENT or GOOD operational days across all regions. 73% of region-days triggered operational alerts.
+**Critical Finding:** Zero EXCELLENT operational days across all regions. 73% of region-days triggered operational alerts.
 
 #### 🏭 Worst-Performing Substations
 
@@ -231,13 +231,49 @@ vattenfall-capstone-project/
 
 **Insight:** Weather alone doesn't cause failures—aging infrastructure amplifies weather impact. Modern assets withstand the same conditions.
 
-### Strategic Recommendations
+─────────────────────────────────────────────────────────────────────────────
 
-| Priority | Region | Action | Expected Impact |
-|----------|--------|--------|-----------------|
-| **P0** | Sweden | Grid resilience investment + preventive maintenance | Reduce incidents 20-30% |
-| **P0** | Finland | Capacity expansion + infrastructure modernization | Lower incident rate from 58% to <40% |
-| **P1** | Copenhagen | Emergency response protocol improvements | Reduce avg restoration from 228 min to <160 min |
-| **P1** | All Regions | Weatherize aging assets (15+ years) | Prevent 33% of compounding-risk incidents |
+## Regional Operational Health Dashboard
 
----
+**Executive Summary Visualization - January 2024**
+
+![Regional Operational Health Dashboard - January 2024](notebooks/04_gold/regional_health_dashboard.png)
+
+### Dashboard Highlights
+
+The 4-panel executive dashboard provides a comprehensive view of Nordic grid operations:
+
+**📊 Total Incidents by Region**
+* Sweden (SE): 60 incidents - Highest operational load
+* Finland (FI): 47 incidents
+* Norway (NO): 30 incidents  
+* Denmark (DK): 28 incidents
+
+**⏱️ Average Incident Duration**
+* Sweden (SE): 148.1 minutes - Longest restoration time
+* Finland (FI): 116.3 minutes
+* Denmark (DK): 111.9 minutes
+* Norway (NO): 90.6 minutes - Fastest recovery
+
+**👥 Customer Impact**
+* Sweden (SE): 169,145 customers affected - Highest impact
+* Finland (FI): 115,327 customers
+* Norway (NO): 88,381 customers
+* Denmark (DK): 57,809 customers
+* **Total**: 430,662 customers affected across all regions
+
+**🚨 Critical Incident Rate**
+* Shows percentage of critical priority incidents by region
+* Enables risk-based resource allocation
+* Identifies regions requiring immediate operational attention
+
+### Key Insights
+
+* **Sweden** requires urgent attention across all metrics - highest incident count, longest duration, and greatest customer impact
+* **Norway** demonstrates operational excellence with fastest recovery times despite moderate incident volume
+* **57.5-minute gap** between fastest (NO) and slowest (SE) recovery indicates significant opportunity for process improvement
+* Regional patterns suggest infrastructure investment priorities for 2024-2025
+
+*Dashboard generated from Gold layer aggregates. View live visualization in notebook: `04_gold/08_gold_regional_analytics`*
+
+─────────────────────────────────────────────────────────────────────────────
